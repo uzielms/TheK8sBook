@@ -1,28 +1,30 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1 # versão da API a ser usada; usar o comando $ kubectl api-resources para saber qual apiVersion utilizar.
+kind: Deployment  # Este campo kind informa ao Kubernetes que está definindo um Deployment object
 metadata:
-  name: hello-deploy
+  name: hello-deploy  # Nome do Deployment. Deve ser um nome DNS válido
 spec:
-  replicas: 10
+  # replicas: 10
+  replicas: 5 # Número de réplicas de pod para implantar e gerenciar
   selector:
     matchLabels:
-      app: hello-world
-  revisionHistoryLimit: 5
-  progressDeadlineSeconds: 300
-  minReadySeconds: 10
-  strategy:
+      app: hello-world # Label usado para selecionar os pods
+  revisionHistoryLimit: 5 # Quantas versões/ReplicaSets mais antigos devem ser mantidos para Rollbacks
+  progressDeadlineSeconds: 300  # Informa ao Kubernetes quanto tempo esperar durante uma atualização(rollout) para que cada nova réplica fique online
+  minReadySeconds: 10 # iniciando os novos pods e aguardando 10 segundos antes de passar para os próximos dois
+  strategy: # Este bloco controla como as atualizações acontecem
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 1
       maxSurge: 1
-  template:
+  template: # Pod Template
     metadata:
       labels:
-        app: hello-world
+        app: hello-world # Label aplicado aos pods
     spec:
       containers:
       - name: hello-pod
-        image: nigelpoulton/k8sbook:1.0
+        image: nigelpoulton/k8sbook:2.0
+        # image: nigelpoulton/k8sbook:2.0
         ports:
         - containerPort: 8080
         resources:

@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: svc-test
 spec:
-  replicas: 10
+  replicas: 5
   selector:
     matchLabels:
       chapter: services

@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: svc-test
   labels:
-    chapter: services
+    chapter: services # esta label apenas identifica o serviço e não os Pod.
 spec:
 # ipFamilyPolicy: PreferDualStack
 # ipFamilies:
@@ -11,9 +11,11 @@ spec:
 # - IPv6
   type: NodePort
   ports:
-  - port: 8080
+  #- port: 8080
+  - port: 9090
     nodePort: 30001
-    targetPort: 9090
+    targetPort: 8080
+    # targetPort: 9090
     protocol: TCP
   selector:
     chapter: services
